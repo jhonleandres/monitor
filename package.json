@@ -1,27 +1,59 @@
 {
   "name": "monitor",
-  "version": "0.1.0",
+  "version": "0.0.1",
+  "main": "public/electron.js",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "web-vitals": "^1.0.1"
+  "homepage": "./",
+  "author": {
+    "name": "Jhonleandres",
+    "email": "jhonleandres.silva@gmail.com"
+  },
+  "build": {
+    "appId": "com.14ksistema.monitor",
+    "productName": "Monitor-14kSistema",
+    "copyright": "Copyright © 2021 ${author}",
+    "asar": true,
+    "files": [
+      "build/",
+      "node/",
+      "node_modules/",
+      "knexfile.js",
+      ".env"
+    ],
+    "linux": {
+      "target": [
+        "deb",
+        "rpm",
+        "snap",
+        "AppImage"
+      ],
+      "category": "System"
+    },
+    "nsis": {
+      "perMachine": true
+    },
+    "extraFiles": [
+      "database"
+    ],
+    "directories": {
+      "buildResources": "./build",
+      "output": "./release"
+    }
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "start": "yarn react-watch:css && react-scripts start",
+    "build": "yarn react-watch:css && react-scripts build",
+    "react-test": "rescripts test",
+    "react-eject": "rescripts eject",
+    "react-watch:css": "postcss src/assets/tailwind.css -o src/assets/main.css",
+    "electron": "electron public/electron.js",
+    "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "pack": "electron-builder --dir",
+    "dist": "yarn build && electron-builder build",
+    "postinstall": "electron-builder install-app-deps",
+    "win-postinstall": "electron-builder --win --ia32 install-app-deps",
+    "win-pack": "electron-builder --win --ia32 --dir",
+    "win-dist": "electron-builder --win --ia32"
   },
   "browserslist": {
     "production": [
@@ -34,5 +66,58 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "dependencies": {
+    "@bigemap/systeminformation": "^4.15.3",
+    "@tailwindcss/forms": "^0.3.3",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "child_process": "^1.0.2",
+    "consign": "^0.1.6",
+    "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
+    "electron": "^13.1.6",
+    "electron-devtools-installer": "^3.2.0",
+    "electron-is-dev": "^2.0.0",
+    "electron-log": "^4.3.5",
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.24.0",
+    "express": "^4.17.1",
+    "knex": "^0.95.7",
+    "react": "^17.0.2",
+    "react-circular-progressbar": "^2.0.4",
+    "react-dom": "^17.0.2",
+    "react-helmet": "^6.1.0",
+    "react-keyboard-event-handler": "^1.5.4",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.3",
+    "sqlite3": "^5.0.2",
+    "systeminformation": "^5.7.7",
+    "typescript": "^4.3.5",
+    "web-vitals": "^1.0.1"
+  },
+  "devDependencies": {
+    "@rescripts/cli": "^0.0.16",
+    "@rescripts/rescript-env": "^0.0.14",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-helmet": "^6.1.2",
+    "@types/react-keyboard-event-handler": "^1.5.1",
+    "@types/react-router-dom": "^5.1.8",
+    "autoprefixer": "^10.3.1",
+    "concurrently": "^6.2.0",
+    "electron-builder": "^22.11.7",
+    "electron-reload": "^1.5.0",
+    "postcss": "^8.3.5",
+    "postcss-cli": "^8.3.1",
+    "prettier": "^2.3.2",
+    "tailwindcss": "^2.2.4",
+    "ts-loader": "^9.2.3",
+    "wait-on": "^6.0.0"
   }
 }
